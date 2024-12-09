@@ -21,7 +21,7 @@ FILL_NEUTRAL = (120, 120, 120)
 # pygame setup
 pygame.init()
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-pygame.display.set_caption("PyGame Internet Checkers", icontitle="")
+pygame.display.set_caption("PyGame Web Checkers", icontitle="")
 clock = pygame.time.Clock()
 dt = 0
 
