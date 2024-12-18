@@ -1,4 +1,3 @@
-# Example file showing a circle moving on screen
 import pygame
 import pathlib
 import random
@@ -20,6 +19,8 @@ FILL_RED = (160, 120, 120)
 FILL_BLACK = (100, 100, 100)
 FILL_NEUTRAL = (120, 120, 120)
 
+DEBUG_NO_AUDIO_DEVICE = False
+
 pygame.init()
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption("PyGame Web Checkers", icontitle="")
@@ -29,28 +30,29 @@ dt = 0
 pygame.font.init()
 my_font = pygame.font.SysFont('Comic Sans MS', 24)
 
-pygame.mixer.init()
-soundlist = [
-    pygame.mixer.Sound(str(pathlib.Path(__file__).parent.resolve().joinpath("sfx").joinpath("piece-1.wav"))),
-    pygame.mixer.Sound(str(pathlib.Path(__file__).parent.resolve().joinpath("sfx").joinpath("piece-2.wav"))),
-    pygame.mixer.Sound(str(pathlib.Path(__file__).parent.resolve().joinpath("sfx").joinpath("piece-3.wav"))),
-    pygame.mixer.Sound(str(pathlib.Path(__file__).parent.resolve().joinpath("sfx").joinpath("piece-4.wav"))),
-    pygame.mixer.Sound(str(pathlib.Path(__file__).parent.resolve().joinpath("sfx").joinpath("piece-5.wav"))),
-    pygame.mixer.Sound(str(pathlib.Path(__file__).parent.resolve().joinpath("sfx").joinpath("piece-6.wav"))),
-    pygame.mixer.Sound(str(pathlib.Path(__file__).parent.resolve().joinpath("sfx").joinpath("piece-7.wav"))),
-    pygame.mixer.Sound(str(pathlib.Path(__file__).parent.resolve().joinpath("sfx").joinpath("piece-8.wav"))),
-    pygame.mixer.Sound(str(pathlib.Path(__file__).parent.resolve().joinpath("sfx").joinpath("piece-9.wav"))),
-    pygame.mixer.Sound(str(pathlib.Path(__file__).parent.resolve().joinpath("sfx").joinpath("piece-10.wav"))),
-    pygame.mixer.Sound(str(pathlib.Path(__file__).parent.resolve().joinpath("sfx").joinpath("piece-11.wav")))
-    ]
+if DEBUG_NO_AUDIO_DEVICE == False:
+    pygame.mixer.init()
+    soundlist = [
+        pygame.mixer.Sound(str(pathlib.Path(__file__).parent.resolve().joinpath("sfx").joinpath("piece-1.wav"))),
+        pygame.mixer.Sound(str(pathlib.Path(__file__).parent.resolve().joinpath("sfx").joinpath("piece-2.wav"))),
+        pygame.mixer.Sound(str(pathlib.Path(__file__).parent.resolve().joinpath("sfx").joinpath("piece-3.wav"))),
+        pygame.mixer.Sound(str(pathlib.Path(__file__).parent.resolve().joinpath("sfx").joinpath("piece-4.wav"))),
+        pygame.mixer.Sound(str(pathlib.Path(__file__).parent.resolve().joinpath("sfx").joinpath("piece-5.wav"))),
+        pygame.mixer.Sound(str(pathlib.Path(__file__).parent.resolve().joinpath("sfx").joinpath("piece-6.wav"))),
+        pygame.mixer.Sound(str(pathlib.Path(__file__).parent.resolve().joinpath("sfx").joinpath("piece-7.wav"))),
+        pygame.mixer.Sound(str(pathlib.Path(__file__).parent.resolve().joinpath("sfx").joinpath("piece-8.wav"))),
+        pygame.mixer.Sound(str(pathlib.Path(__file__).parent.resolve().joinpath("sfx").joinpath("piece-9.wav"))),
+        pygame.mixer.Sound(str(pathlib.Path(__file__).parent.resolve().joinpath("sfx").joinpath("piece-10.wav"))),
+        pygame.mixer.Sound(str(pathlib.Path(__file__).parent.resolve().joinpath("sfx").joinpath("piece-11.wav")))
+        ]
 
-victory_sfx = pygame.mixer.Sound(str(pathlib.Path(__file__).parent.resolve().joinpath("sfx").joinpath("victory.mp3")))
-defeat_sfx = pygame.mixer.Sound(str(pathlib.Path(__file__).parent.resolve().joinpath("sfx").joinpath("defeat.mp3")))
+    victory_sfx = pygame.mixer.Sound(str(pathlib.Path(__file__).parent.resolve().joinpath("sfx").joinpath("victory.mp3")))
+    defeat_sfx = pygame.mixer.Sound(str(pathlib.Path(__file__).parent.resolve().joinpath("sfx").joinpath("defeat.mp3")))
 
-for i in range(0, 11):
-    pygame.mixer.Sound.set_volume(soundlist[i], 0.12)
-pygame.mixer.Sound.set_volume(victory_sfx, 0.12)
-pygame.mixer.Sound.set_volume(defeat_sfx, 0.12)
+    for i in range(0, 11):
+        pygame.mixer.Sound.set_volume(soundlist[i], 0.12)
+    pygame.mixer.Sound.set_volume(victory_sfx, 0.12)
+    pygame.mixer.Sound.set_volume(defeat_sfx, 0.12)
 
 def flippedBoard(board):
     new = board[::-1]
@@ -131,7 +133,7 @@ def main():
             screen.fill((120, 120, 120))
             if(receivedAlready == False):
                 game = n.send("get")
-                if((game.connected() == True and game.current_turn == player) or (game.running == False)):
+                if(DEBUG_NO_AUDIO_DEVICE == False and ((game.connected() == True and game.current_turn == player) or (game.running == False))):
                     if game.running == False:
                         if player == 'b':
                             if(game.any_moves_available_black == False or game.black_pieces <= 0):
@@ -159,7 +161,8 @@ def main():
                         y = 7 - y
                     changeOccoured = game.updateSelection(x, y)
                     if(changeOccoured == True):
-                        soundlist[random.randint(0, 10)].play()
+                        if DEBUG_NO_AUDIO_DEVICE == False:
+                            soundlist[random.randint(0, 10)].play()
                         data = "map:"+''.join(str(x) for x in game.checkers)+''.join(str(x) for x in game.last_move)
                         n.send(data)
                         receivedAlready = False
