@@ -6,7 +6,7 @@ Simple little checkers game made for my finals! :D
 - [Python 3.12 or newer](https://www.python.org/downloads/) 
 - [PyGame 2.6 or newer](https://www.pygame.org/).
 
-## Special Thanks
+## Special thanks
 
 Big thanks to [Tech With Tim](https://www.techwithtim.net/tutorials/python-online-game-tutorial) for putting out such a good networking tutorial! Without it, I don't know whether I could finish this little project of mine!
 
@@ -20,7 +20,7 @@ If no text is showing up or game crashes even when everything is set up properly
 
 To play, you just need to change the parameters of the `networkaddress.py` to your desired **IP Address** and **Port** *(note playing over the web requires Port Forwarding on your router's end)*. The server and clients must have **the same addresses** set, otherwise the game will not launch!
 
-### The Proper Version
+### The proper version
 
 #### 1. Change the address
 
