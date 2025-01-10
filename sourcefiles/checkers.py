@@ -270,10 +270,10 @@ class Checkers:
                 if self.checkers[x][y][0] == 'b':
                     self.black_pieces += 1
         if(self.red_pieces <= 0 or self.any_moves_available_red == False):
-            print(self.id, self.turn_count, "Wygrał gracz czarny!")
+            print(self.id, self.turn_count, "Black was victorious!")
             self.running = False
         elif(self.black_pieces <= 0 or self.any_moves_available_black == False):
-            print(self.id, self.turn_count, "Wygrał gracz czerwony!")
+            print(self.id, self.turn_count, "Red was victorious!")
             self.running = False
 
     def nextTurn(self):
@@ -284,18 +284,18 @@ class Checkers:
         self.turn_count += 1
 
         if self.compulsory_moves_red == True:
-            print(self.id, self.turn_count, "Tura gracza czerwonego - wymuszone bicie.")
+            print(self.id, self.turn_count, "Red's turn - compulsory take!")
             self.current_turn = "r"
         elif self.compulsory_moves_black == True:
-            print(self.id, self.turn_count, "Tura gracza czarnego - wymuszone bicie.")
+            print(self.id, self.turn_count, "Black's turn - compulsory take!")
             self.current_turn = "b"
         else:
             if self.current_turn == "r":
                 self.current_turn = "b"
-                print(self.id, self.turn_count, "Tura gracza czarnego.")
+                print(self.id, self.turn_count, "Black's turn.")
             elif self.current_turn == "b":
                 self.current_turn = "r"
-                print(self.id, self.turn_count, "Tura gracza czerwonego.")
+                print(self.id, self.turn_count, "Red's turn.")
 
     def checkForQueens(self):
         for i in range(0, 4):
