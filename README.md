@@ -3,7 +3,7 @@ Simple little checkers game made for my finals! :D
 
 ## Requirements
 
-- [Python 3.12 or newer](https://www.python.org/downloads/) 
+- [Python 3.12 or newer](https://www.python.org/downloads/);
 - [PyGame 2.6 or newer](https://www.pygame.org/).
 
 ## Special thanks
